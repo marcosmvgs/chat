@@ -12,22 +12,34 @@ class AuthMockService implements AuthService {
   ele não é final. A mesma explicação serve para o _users.
   Ele vai "zerar" os static's quando eu der um refresh na aplicação
   */
-  static final Map<String, ChatUser> _users = {};
+  static final _defaultUser = ChatUser(
+    id: '1',
+    name: 'Teste',
+    email: '@',
+    imageUrl: 'assets/images/avatar.png',
+  );
+
+  static final Map<String, ChatUser> _users = {
+    _defaultUser.email: _defaultUser,
+  };
   static ChatUser? _currentUser;
   // Preciso criar esse controller para utilizar ele fora do método .multi...
   static MultiStreamController<ChatUser?>? _controller;
   static final _userStream = Stream<ChatUser?>.multi((controller) {
     /* O updateUser vai zerar o usuário atual e vai gerar um novo dado na stream
     de valor nulo*/
-    _updateUser(null);
+    _controller = controller;
+    _updateUser(_defaultUser);
   });
 
   @override
   ChatUser? get currentUser {
-    return null;
+    return _currentUser;
   }
 
   @override
+  /* sempre que o _userStream gerar um novo valor, quem estiver monitorando o
+  getter userChanges será notificado */
   Stream<ChatUser?> get userChanges {
     return _userStream;
   }
@@ -44,12 +56,12 @@ class AuthMockService implements AuthService {
 
   @override
   Future<void> signup(
-      String name, String email, String password, File image) async {
+      String name, String email, String password, File? image) async {
     final newUser = ChatUser(
       id: Random().nextDouble().toString(),
       name: name,
       email: email,
-      imageUrl: image.path,
+      imageUrl: image?.path ?? 'assets/images/avatar.png',
     );
 
     _users.putIfAbsent(email, () => newUser);
