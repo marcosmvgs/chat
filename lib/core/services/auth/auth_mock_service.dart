@@ -13,8 +13,8 @@ class AuthMockService implements AuthService {
   Ele vai "zerar" os static's quando eu der um refresh na aplicação
   */
   static final _defaultUser = ChatUser(
-    id: '1',
-    name: 'Teste',
+    id: '456',
+    name: 'Ana',
     email: '@',
     imageUrl: 'assets/images/avatar.png',
   );
