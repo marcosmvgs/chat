@@ -8,32 +8,7 @@ import 'dart:async';
 class ChatMockService implements ChatService {
   /* Independente da instância de ChatMockService a lista de mensagens
   será a mesma*/
-  static final List<ChatMessage> _msgs = [
-    ChatMessage(
-      id: '1',
-      text: 'Bom dia. Teremos reunião hoje?',
-      createdAt: DateTime.now(),
-      userId: '123',
-      userName: 'Marcos',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-    ChatMessage(
-      id: '2',
-      text: 'Sim horário normal.',
-      createdAt: DateTime.now(),
-      userId: '456',
-      userName: 'Vitoria',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-    ChatMessage(
-      id: '1',
-      text: 'Ok.',
-      createdAt: DateTime.now(),
-      userId: '123',
-      userName: 'Marcos',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-  ];
+  static final List<ChatMessage> _msgs = [];
 
   static MultiStreamController<List<ChatMessage>>? _controller;
   static final _msgStream = Stream<List<ChatMessage>>.multi((controller) {
@@ -57,7 +32,7 @@ class ChatMockService implements ChatService {
         userImageUrl: user.imageUrl);
     _msgs.add(newMessage);
 
-    _controller?.add(_msgs);
+    _controller?.add(_msgs.reversed.toList());
 
     return newMessage;
   }

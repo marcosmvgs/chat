@@ -46,14 +46,14 @@ class MessageBubble extends StatelessWidget {
                       ? Colors.grey.shade300
                       : Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                    topLeft: const Radius.circular(12),
+                    topRight: const Radius.circular(12),
                     bottomLeft: belongsToCurrentUser
-                        ? Radius.circular(12)
-                        : Radius.circular(0),
+                        ? const Radius.circular(12)
+                        : const Radius.circular(0),
                     bottomRight: belongsToCurrentUser
-                        ? Radius.circular(0)
-                        : Radius.circular(12),
+                        ? const Radius.circular(0)
+                        : const Radius.circular(12),
                   )),
               width: 180,
               padding: const EdgeInsets.symmetric(
@@ -65,6 +65,7 @@ class MessageBubble extends StatelessWidget {
                 horizontal: 8,
               ),
               child: Column(
+                crossAxisAlignment: belongsToCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                   Text(
                     message.userName,
@@ -75,6 +76,7 @@ class MessageBubble extends StatelessWidget {
                   ),
                   Text(
                     message.text,
+                    textAlign: belongsToCurrentUser ? TextAlign.right : TextAlign.left,
                     style: TextStyle(
                       color: belongsToCurrentUser ? Colors.black : Colors.white,
                     ),
